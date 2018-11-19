@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import Table from './Table';
+import Button from './Button';
+import Form from './Form';
+
+const name = 'Tyler';
+const heading = <h1 className="site-heading">Hello, {name}</h1>;
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+
+    state = {
+        characters: []
+    };
+
+    // Create a method to remove a character 
+    removeCharacter = index => {
+        const { characters } = this.state;
+    
+        this.setState({
+            characters: characters.filter((character, i) => { 
+                return i !== index;
+            })
+        });
+    }
+
+    //Create a method to submit and handle the submit
+    handleSubmit = (character) => {
+        this.setState({characters: [...this.state.characters, character]});
+    }
+
+
+    render() {
+        const { characters } = this.state;
+        return (
+        <div className="small-container">
+            {heading}
+            <Form handleSubmit={this.handleSubmit} />
+
+            <Table
+                characterData={characters}
+                removeCharacter={this.removeCharacter} 
+            />
+        </div>
     );
-  }
+    }
 }
 
 export default App;
